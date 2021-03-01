@@ -11,7 +11,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
     
     //Need to figure out how to make the Sign Out button align to the right
     document.querySelector('.page-top').insertAdjacentHTML('beforeend',
-    `<a href="#" class="text-lg sign-out button border-2 bg-black border-black text-white rounded px-2">Sign Out</a>`)
+    `<a href="#" class="text-lg sign-out button bg-blue-500 hover:bg-blue-800 border-blue-500 text-white rounded px-2">Sign Out</a>`)
     
     // Display upon Sign-in
     document.querySelector('.sign-in-or-sign-out').innerHTML = `
@@ -31,16 +31,27 @@ firebase.auth().onAuthStateChanged(async function(user) {
       event.preventDefault()
       document.querySelector('.tag-line').classList.add('hidden')
       document.querySelector('.add-form').insertAdjacentHTML('beforeend',`
-      <form class="w-full mt-8">
-        <input type="text" id="category" name="category" placeholder="Category"
+      <form class="container-center w-full mt-8">
+        <select id="category" name="category" placeholder="Category"
           class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+          <option value="none">None</option>
+          <option value="american">American Whiskey</option>
+          <option value="blended">Blended</option>
+          <option value="bourbon">Bourbon</option>
+          <option value="canadian">Canadian</option>
+          <option value="independent">Independent</option>
+          <option value="irish">Irish</option>
+          <option value="japanese">Japanese</option>
+          <option value="rye">Rye</option>
+          <option value="scotch">Scotch</option>
+          </select>
         <input type="text" id="image-url" name="image-url" placeholder="Image URL"
           class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
         <input type="text" id="price" name="price" placeholder="Suggested Value"
           class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-        <input type="text" id="description" name="description" placeholder="Brief Description"
+        <input type="text" style="width:780px; height:100px;" id="description" name="description" placeholder="Brief Description"
           class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-        <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Post</button>
+        <button class="bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded-xl">Add</button>
       </form>
       `)
     })
