@@ -26,7 +26,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       document.location.href = 'index.html'
     })
 
-    // Action for clicking on the Add to do the Shelves button
+    // Actions for clicking on the Add to do the Shelves button
     document.querySelector(`#add`).addEventListener('click', function(event){
       event.preventDefault()
       document.querySelector('.tag-line').classList.add('hidden')
@@ -75,6 +75,33 @@ firebase.auth().onAuthStateChanged(async function(user) {
       })
 
     })
+
+    // Actions for clicking on the Browse the Shelves button
+    document.querySelector(`#browse`).addEventListener('click', async function(event){
+      event.preventDefault()
+      let querySnapshot = await db.collection('posts').orderBy('created').get()
+      let posts = querySnapshot.docs
+      
+      for (let i=0; i<posts.length; i++) {
+        let postId = posts[i].id
+        let postData = posts[i].data()
+        let postCategory = postData.category
+        let postImageUrl = postData.imageUrl
+        let postUsername = postData.username
+        let postDescription = postData.description
+        let postValue = postData.value
+        renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
+      }
+    })
+    // Actions for clicking on the View My Bar button
+    // document.querySelector(`#my-bar`).addEventListener('click', async function(event){
+    //   event.preventDefault()
+    //   let currentUser = firebase.auth().currentUser
+    //   let po
+    //   let userName = 
+    //   console.log(currentUser.uid)
+    //   let querySnapshot = await db.collection('posts').where().orderBy('created').get()
+    // })
  
   } else {
     // Signed out
@@ -106,23 +133,23 @@ async function renderPost(postId, postCategory, postUsername, postImageUrl, post
     <div class="post-${postId} p-4 w-full md:w-1/2 lg:w-1/3">
 
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-xl">${postCategory}</span>
+        <span class="font-bold capitalize text-white text-xl">${postCategory}</span>
       </div>
 
       <div>
-        <img src="${postImageUrl}" class="w-full">
+        <img src="${postImageUrl}" class="bg-white h-1/3; w-1/3">
       </div>
       
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-xl">${postUsername}</span>
+        <span class="font-bold text-white text-xl">${postUsername}</span>
+      </div>
+
+      <div class="md:mx-0 mx-4 w-1/3">
+        <span class="font-bold text-white text-lg">${postDescription}</span>
       </div>
 
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-lg">${postDescription}</span>
-      </div>
-
-      <div class="md:mx-0 mx-4">
-        <span class="font-bold text-lg">${postValue}</span>
+        <span class="font-bold text-white text-lg">${postValue}</span>
       </div>
             
     </div>
