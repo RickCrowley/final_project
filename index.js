@@ -54,6 +54,26 @@ firebase.auth().onAuthStateChanged(async function(user) {
         <button class="bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded-xl">Add</button>
       </form>
       `)
+      // Listen for the form submit and create/render the new post
+      document.querySelector('.add-form').addEventListener('submit', async function (event) {
+        event.preventDefault()
+        let postCategory = document.querySelector('#category').value
+        let postImageUrl = document.querySelector('#image-url').value
+        let postUsername = user.displayName
+        let postDescription = document.querySelector('#description').value
+        let postValue = document.querySelector('#price').value
+        let docRef = await db.collection('posts').add({
+          username: postUsername,
+          imageUrl: postImageUrl,
+          category: postCategory,
+          value: postValue,
+          description: postDescription,
+          created: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        let postId = docRef.id // the newly created document's ID
+        renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
+      })
+
     })
  
   } else {
@@ -79,3 +99,32 @@ firebase.auth().onAuthStateChanged(async function(user) {
     ui.start('.sign-in-or-sign-out', authUIConfig)
   }
 })
+
+// Define the renderPost function
+async function renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription) {
+  document.querySelector('.browse-list').insertAdjacentHTML('beforeend', `
+    <div class="post-${postId} p-4 w-full md:w-1/2 lg:w-1/3">
+
+      <div class="md:mx-0 mx-4">
+        <span class="font-bold text-xl">${postCategory}</span>
+      </div>
+
+      <div>
+        <img src="${postImageUrl}" class="w-full">
+      </div>
+      
+      <div class="md:mx-0 mx-4">
+        <span class="font-bold text-xl">${postUsername}</span>
+      </div>
+
+      <div class="md:mx-0 mx-4">
+        <span class="font-bold text-lg">${postDescription}</span>
+      </div>
+
+      <div class="md:mx-0 mx-4">
+        <span class="font-bold text-lg">${postValue}</span>
+      </div>
+            
+    </div>
+  `)
+}
