@@ -11,7 +11,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
     
     //Need to figure out how to make the Sign Out button align to the right
     document.querySelector('.sign-out').insertAdjacentHTML('beforeend',
-    `<a href="#" class="text-lg sign-out button bg-blue-500 hover:bg-blue-800 border-blue-500 text-white rounded px-2">Sign Out</a>`)
+    `<a href="#" class="text-lg sign-out button bg-gray-500 hover:bg-black border-black text-white rounded px-2">Sign Out</a>`)
     
     // Display upon Sign-in
     document.querySelector('.sign-in-or-sign-out').innerHTML = `
