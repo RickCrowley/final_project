@@ -92,6 +92,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
         let postValue = postData.value
         renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
       }
+      
     },{once:true})
     // Actions for clicking on the View My Bar button
     // document.querySelector(`#my-bar`).addEventListener('click', async function(event){
@@ -151,6 +152,8 @@ async function renderPost(postId, postCategory, postUsername, postImageUrl, post
       <div class="md:mx-0 mx-4">
         <span class="font-bold text-white text-lg">${postValue}</span>
       </div>
+
+      <button class="bg-gray-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
             
     </div>
   `)
