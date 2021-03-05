@@ -74,7 +74,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
         renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
       })
 
-    })
+    },{once:true})
 
     // Actions for clicking on the Browse the Shelves button
     document.querySelector(`#browse`).addEventListener('click', async function(event){
@@ -92,7 +92,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
         let postValue = postData.value
         renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
       }
-    })
+    },{once:true})
     // Actions for clicking on the View My Bar button
     // document.querySelector(`#my-bar`).addEventListener('click', async function(event){
     //   event.preventDefault()
