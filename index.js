@@ -79,18 +79,22 @@ firebase.auth().onAuthStateChanged(async function(user) {
     // Actions for clicking on the Browse the Shelves button
     document.querySelector(`#browse`).addEventListener('click', async function(event){
       event.preventDefault()
-      let querySnapshot = await db.collection('posts').orderBy('created').get()
-      let posts = querySnapshot.docs
-      
+      // let querySnapshot = await db.collection('posts').orderBy('created').get()
+      // let posts = querySnapshot.docs
+      let browseResponse = await fetch(`/.netlify/functions/browse`)
+      let posts = await browseResponse.json()
       for (let i=0; i<posts.length; i++) {
-        let postId = posts[i].id
-        let postData = posts[i].data()
-        let postCategory = postData.category
-        let postImageUrl = postData.imageUrl
-        let postUsername = postData.username
-        let postDescription = postData.description
-        let postValue = postData.value
-        renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
+        let post = posts[i]
+        // console.log(post)
+        // let postId = posts[i].id
+        // // let postData = posts[i].data()
+        // let postCategory = post.category
+        // let postImageUrl = postData.imageUrl
+        // let postUsername = postData.username
+        // let postDescription = postData.description
+        // let postValue = postData.value
+        // renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
+        renderPost(post)
       }
       
     },{once:true})
@@ -129,28 +133,29 @@ firebase.auth().onAuthStateChanged(async function(user) {
 })
 
 // Define the renderPost function
-async function renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription) {
+async function renderPost(post) {
+  let postId = post.id
   document.querySelector('.browse-list').insertAdjacentHTML('beforeend', `
     <div class="post-${postId} p-4 w-full md:w-1/2 lg:w-1/3">
 
       <div class="md:mx-0 mx-4">
-        <span class="font-bold capitalize text-white text-xl">${postCategory}</span>
+        <span class="font-bold capitalize text-white text-xl">${post.category}</span>
       </div>
 
       <div>
-        <img src="${postImageUrl}" class="bg-white h-1/3; w-1/3">
+        <img src="${post.imageUrl}" class="bg-white h-1/3; w-1/3">
       </div>
       
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-white text-xl">${postUsername}</span>
+        <span class="font-bold text-white text-xl">${post.username}</span>
       </div>
 
       <div class="md:mx-0 mx-4 w-1/3">
-        <span class="font-bold text-white text-lg">${postDescription}</span>
+        <span class="font-bold text-white text-lg">${post.description}</span>
       </div>
 
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-white text-lg">${postValue}</span>
+        <span class="font-bold text-white text-lg">${post.value}</span>
       </div>
 
       <button class="bg-gray-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
