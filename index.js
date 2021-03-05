@@ -99,6 +99,26 @@ firebase.auth().onAuthStateChanged(async function(user) {
       
     },{once:true})
     // Actions for clicking on the View My Bar button
+
+
+    document.querySelector('#my-bar').addEventListener('click', async function(event) {
+      event.preventDefault()
+      let currentUser = firebase.auth().currentUser
+      let barResponse = await fetch(`/.netlify/functions/browse`)
+      let posts = await barResponse.json()
+      for (let i=0; i<posts.length; i++) {
+        let post = posts[i]
+        let docRef = await db.collection('interested').doc(`${post.id}-${currentUser.uid}`).get()
+        let interested = docRef.data()
+        let opacityClass = ''
+        if (interested) {
+          opacityClass = 'opacity-20'
+        }
+        console.log(currentUser.uid)
+        renderPost(post)
+      }
+
+    },{once:true})
     // document.querySelector(`#my-bar`).addEventListener('click', async function(event){
     //   event.preventDefault()
     //   let currentUser = firebase.auth().currentUser
@@ -158,7 +178,7 @@ async function renderPost(post) {
         <span class="font-bold text-white text-lg">${post.value}</span>
       </div>
 
-      <button class="bg-gray-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
+      <button class="interested-button bg-gray-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
             
     </div>
   `)
