@@ -62,16 +62,28 @@ firebase.auth().onAuthStateChanged(async function(user) {
         let postUsername = user.displayName
         let postDescription = document.querySelector('#description').value
         let postValue = document.querySelector('#price').value
-        let docRef = await db.collection('posts').add({
-          username: postUsername,
-          imageUrl: postImageUrl,
-          category: postCategory,
-          value: postValue,
-          description: postDescription,
-          created: firebase.firestore.FieldValue.serverTimestamp()
+        let addResponse = await fetch(`/.netlify/functions/add`, {
+          method: `POST`,
+          body: JSON.stringify({
+            userId: user.uid,
+            username: postUsername,
+            imageUrl: postImageUrl,
+            category: postCategory,
+            value: postValue,
+            description: postDescription
+          })
         })
-        let postId = docRef.id // the newly created document's ID
-        renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
+        let post = await addResponse.json()
+        // let docRef = await db.collection('posts').add({
+        //   username: postUsername,
+        //   imageUrl: postImageUrl,
+        //   category: postCategory,
+        //   value: postValue,
+        //   description: postDescription,
+        //   created: firebase.firestore.FieldValue.serverTimestamp()
+        // })
+        // let postId = docRef.id // the newly created document's ID
+        renderPost(post)
       })
 
     },{once:true})
