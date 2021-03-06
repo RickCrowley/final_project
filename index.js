@@ -114,19 +114,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
         if (interested) {
           opacityClass = 'opacity-20'
         }
-        console.log(currentUser.uid)
+        // console.log(currentUser.uid)
         renderPost(post)
       }
 
     },{once:true})
-    // document.querySelector(`#my-bar`).addEventListener('click', async function(event){
-    //   event.preventDefault()
-    //   let currentUser = firebase.auth().currentUser
-    //   let po
-    //   let userName = 
-    //   console.log(currentUser.uid)
-    //   let querySnapshot = await db.collection('posts').where().orderBy('created').get()
-    // })
+    
  
   } else {
     // Signed out
