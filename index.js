@@ -90,12 +90,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
         document.querySelector('#price').value = ''
         renderPost(post)
       })
-
     },{once:true})
 
     // Actions for clicking on the Browse the Shelves button
     document.querySelector(`#browse`).addEventListener('click', async function(event){
       event.preventDefault()
+      document.querySelector('.add-form').innerHTML = ""
       // let querySnapshot = await db.collection('posts').orderBy('created').get()
       // let posts = querySnapshot.docs
       let browseResponse = await fetch(`/.netlify/functions/browse`)
@@ -134,10 +134,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
         // console.log(post.userid)
         if (currentUser.uid == post.userid) {
           renderPost(post)
-        }
-          
+        }          
       }
-
     },{once:true})
     
  
