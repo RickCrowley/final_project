@@ -2,6 +2,7 @@ let firebase = require('./firebase')
 
 exports.handler = async function (event) {
   let db = firebase.firestore()
+  console.log(event)
   let body = JSON.parse(event.body)
   let userId = body.userId
   let postCategory = body.category
@@ -10,7 +11,7 @@ exports.handler = async function (event) {
   let postDescription = body.description
   let postValue = body.value
 
-    let newPost = {
+  let newPost = {
     userId: userId,
     username: postUsername,
     imageUrl: postImageUrl,

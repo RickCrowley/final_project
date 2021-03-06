@@ -57,15 +57,16 @@ firebase.auth().onAuthStateChanged(async function(user) {
       // Listen for the form submit and create/render the new post
       document.querySelector('.add-form').addEventListener('submit', async function (event) {
         event.preventDefault()
+        let userId = user.uid
         let postCategory = document.querySelector('#category').value
         let postImageUrl = document.querySelector('#image-url').value
         let postUsername = user.displayName
         let postDescription = document.querySelector('#description').value
         let postValue = document.querySelector('#price').value
         let addResponse = await fetch(`/.netlify/functions/add`, {
-          method: `POST`,
+          method: 'POST',
           body: JSON.stringify({
-            userId: user.uid,
+            userId: userId,
             username: postUsername,
             imageUrl: postImageUrl,
             category: postCategory,
