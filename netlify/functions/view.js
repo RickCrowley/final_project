@@ -2,8 +2,8 @@ let firebase = require('./firebase')
 
 exports.handler = async function (event) {
   let db = firebase.firestore()
-  // let currentUser = firebase.auth().currentUser
-  // console.log(currentUser)
+  let currentUser = firebase.auth().currentUser
+  console.log(currentUser.uid)
 
   let myBar = []
 

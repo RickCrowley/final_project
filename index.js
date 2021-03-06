@@ -84,6 +84,10 @@ firebase.auth().onAuthStateChanged(async function(user) {
         //   created: firebase.firestore.FieldValue.serverTimestamp()
         // })
         // let postId = docRef.id // the newly created document's ID
+        document.querySelector('#image-url').value = ''
+        document.querySelector('#category').value = ''
+        document.querySelector('#description').value = ''
+        document.querySelector('#price').value = ''
         renderPost(post)
       })
 
@@ -112,8 +116,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
       
     },{once:true})
     // Actions for clicking on the View My Bar button
-
-
     document.querySelector('#my-bar').addEventListener('click', async function(event) {
       event.preventDefault()
       let currentUser = firebase.auth().currentUser
@@ -121,12 +123,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
       let posts = await barResponse.json()
       for (let i=0; i<posts.length; i++) {
         let post = posts[i]
-        let docRef = await db.collection('interested').doc(`${post.id}-${currentUser.uid}`).get()
-        let interested = docRef.data()
-        let opacityClass = ''
-        if (interested) {
-          opacityClass = 'opacity-20'
-        }
+        // let docRef = await db.collection('interested').doc(`${post.id}-${currentUser.uid}`).get()
+        // let interested = docRef.data()
+        // let opacityClass = ''
+        // if (interested) {
+        //   opacityClass = 'opacity-20'
+        // }
         // console.log(currentUser.uid)
         renderPost(post)
       }
