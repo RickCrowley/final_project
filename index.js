@@ -75,15 +75,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           })
         })
         let post = await addResponse.json()
-        // let docRef = await db.collection('posts').add({
-        //   username: postUsername,
-        //   imageUrl: postImageUrl,
-        //   category: postCategory,
-        //   value: postValue,
-        //   description: postDescription,
-        //   created: firebase.firestore.FieldValue.serverTimestamp()
-        // })
-        // let postId = docRef.id // the newly created document's ID
+        
         document.querySelector('#image-url').value = ''
         document.querySelector('#category').value = ''
         document.querySelector('#description').value = ''
@@ -96,21 +88,10 @@ firebase.auth().onAuthStateChanged(async function(user) {
     document.querySelector(`#browse`).addEventListener('click', async function(event){
       event.preventDefault()
       document.querySelector('.add-form').innerHTML = ""
-      // let querySnapshot = await db.collection('posts').orderBy('created').get()
-      // let posts = querySnapshot.docs
       let browseResponse = await fetch(`/.netlify/functions/browse`)
       let posts = await browseResponse.json()
       for (let i=0; i<posts.length; i++) {
         let post = posts[i]
-        // console.log(post)
-        // let postId = posts[i].id
-        // // let postData = posts[i].data()
-        // let postCategory = post.category
-        // let postImageUrl = postData.imageUrl
-        // let postUsername = postData.username
-        // let postDescription = postData.description
-        // let postValue = postData.value
-        // renderPost(postId, postCategory, postUsername, postImageUrl, postValue, postDescription)
         renderPost(post)
       }
       
@@ -137,7 +118,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
         }          
       }
     },{once:true})
-    
+    // Add event listener for Interested Button
  
   } else {
     // Signed out
