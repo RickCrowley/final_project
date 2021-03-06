@@ -123,6 +123,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       let posts = await barResponse.json()
       for (let i=0; i<posts.length; i++) {
         let post = posts[i]
+        // let postUser = posts.
         // let docRef = await db.collection('interested').doc(`${post.id}-${currentUser.uid}`).get()
         // let interested = docRef.data()
         // let opacityClass = ''
@@ -130,7 +131,11 @@ firebase.auth().onAuthStateChanged(async function(user) {
         //   opacityClass = 'opacity-20'
         // }
         // console.log(currentUser.uid)
-        renderPost(post)
+        // console.log(post.userid)
+        if (currentUser.uid == post.userid) {
+          renderPost(post)
+        }
+          
       }
 
     },{once:true})
@@ -162,7 +167,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
 // Define the renderPost function
 async function renderPost(post) {
-  let postId = post.id
+  let postId = post.id  
   document.querySelector('.browse-list').insertAdjacentHTML('beforeend', `
     <div class="post-${postId} p-4 w-full md:w-1/2 lg:w-1/3">
 

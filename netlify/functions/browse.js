@@ -16,6 +16,7 @@ exports.handler = async function (event) {
     let postUsername = postData.username
     let postDescription = postData.description
     let postValue = postData.value
+    let postUser = postData.userId
     // console.log(postCategory)
 
     postsData.push({
@@ -24,7 +25,8 @@ exports.handler = async function (event) {
       username: postUsername,
       imageUrl: postImageUrl,
       value: postValue,
-      description: postDescription
+      description: postDescription,
+      userid: postUser
     })
 
 
