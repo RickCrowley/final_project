@@ -1,4 +1,4 @@
-firebase.auth().onAuthStateChanged(async function(user) {
+firebase.auth().onAuthStateChanged(async function (user) {
   if (user) {
     // Signed in
     let db = firebase.firestore()
@@ -8,11 +8,11 @@ firebase.auth().onAuthStateChanged(async function(user) {
       name: user.displayName,
       email: user.email
     })
-    
+
     //Need to figure out how to make the Sign Out button align to the right
     document.querySelector('.sign-out').insertAdjacentHTML('beforeend',
-    `<a href="#" class="text-lg sign-out button bg-gray-500 hover:bg-black border-black text-white rounded px-2">Sign Out</a>`)
-    
+      `<a href="#" class="text-lg sign-out button bg-gray-500 hover:bg-black border-black text-white rounded px-2">Sign Out</a>`)
+
     // Display upon Sign-in
     document.querySelector('.sign-in-or-sign-out').innerHTML = `
       <div class="container-center text-xl">
@@ -20,19 +20,19 @@ firebase.auth().onAuthStateChanged(async function(user) {
         <p class="m-12">What would you like to do today?</p>
       </div>
     `
-    document.querySelector('.sign-out').addEventListener('click', function(event) {
+    document.querySelector('.sign-out').addEventListener('click', function (event) {
       event.preventDefault()
       firebase.auth().signOut()
       document.location.href = 'index.html'
     })
 
     // Actions for clicking on the Add to do the Shelves button
-    document.querySelector(`#add`).addEventListener('click', function(event){
+    document.querySelector(`#add`).addEventListener('click', function (event) {
       event.preventDefault()
       document.querySelector('.browse-list').innerHTML = ""
       document.querySelector('.tag-line').classList.add('hidden')
-      document.querySelector('.add-form').insertAdjacentHTML('beforeend',`
-      <form class="container-center w-full mt-8">
+      document.querySelector('.add-form').insertAdjacentHTML('beforeend', `
+      <form class="object-center w-full mt-8">
         <select id="category" name="category" placeholder="Category"
           class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
           <option value="none">None</option>
@@ -77,36 +77,48 @@ firebase.auth().onAuthStateChanged(async function(user) {
           })
         })
         let post = await addResponse.json()
-        
+
         document.querySelector('#image-url').value = ''
         document.querySelector('#category').value = ''
         document.querySelector('#description').value = ''
         document.querySelector('#price').value = ''
         renderPost(post)
       })
-    },{once:true})
+    }, { once: true })
 
     // Actions for clicking on the Browse the Shelves button
-    document.querySelector(`#browse`).addEventListener('click', async function(event){
+    document.querySelector(`#browse`).addEventListener('click', async function (event) {
       event.preventDefault()
       document.querySelector('.add-form').innerHTML = ""
       let browseResponse = await fetch(`/.netlify/functions/browse`)
       let posts = await browseResponse.json()
-      for (let i=0; i<posts.length; i++) {
+      for (let i = 0; i < posts.length; i++) {
         let post = posts[i]
         renderPost(post)
-      }
-      
-    },{once:true})
+        
+      // Add event listener for Interested Button
+        document.querySelector('.interested-button').addEventListener('click', async function (event) {
+          event.preventDefault()
+          let currentUser = firebase.auth().currentUser
+          if (currentUser.uid == post.userid) {
+            document.querySelector('.interested').insertAdjacentHTML('beforeend', `
+              <div>
+                Already in your Bar!
+              </div>
+            `)
+          }
+        },)
+      }  
+    }, { once: true })
     // Actions for clicking on the View My Bar button
-    document.querySelector('#my-bar').addEventListener('click', async function(event) {
+    document.querySelector('#my-bar').addEventListener('click', async function (event) {
       event.preventDefault()
       document.querySelector('.browse-list').innerHTML = ""
       document.querySelector('.add-form').innerHTML = ""
       let currentUser = firebase.auth().currentUser
       let barResponse = await fetch(`/.netlify/functions/browse`)
       let posts = await barResponse.json()
-      for (let i=0; i<posts.length; i++) {
+      for (let i = 0; i < posts.length; i++) {
         let post = posts[i]
         // let postUser = posts.
         // let docRef = await db.collection('interested').doc(`${post.id}-${currentUser.uid}`).get()
@@ -119,11 +131,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
         // console.log(post.userid)
         if (currentUser.uid == post.userid) {
           renderPost(post)
-        }          
+          // document.querySelector('.interested-button').innerHTML = ""
+        }
       }
-    },{once:true})
-    // Add event listener for Interested Button
- 
+    }, { once: true })
+
+
   } else {
     // Signed out
     console.log('signed out')
@@ -150,9 +163,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
 // Define the renderPost function
 async function renderPost(post) {
-  let postId = post.id  
+  let postId = post.id
   document.querySelector('.browse-list').insertAdjacentHTML('beforeend', `
-    <div class="post-${postId} p-4 w-full md:w-1/2 lg:w-1/3">
+    <div class=" object-scale-down post-${postId} p-4 w-full md:w-1/2 lg:w-1/3">
 
       <div class="md:mx-0 mx-4">
         <span class="font-bold capitalize text-white text-xl">${post.category}</span>
@@ -174,8 +187,10 @@ async function renderPost(post) {
         <span class="font-bold text-white text-lg">${post.value}</span>
       </div>
 
-      <button class="interested-button bg-gray-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
-            
+      <div class="interested">
+        <button class="interested-button bg-gray-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
+      </div>            
     </div>
   `)
 }
+
