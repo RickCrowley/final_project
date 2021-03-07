@@ -29,6 +29,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
     // Actions for clicking on the Add to do the Shelves button
     document.querySelector(`#add`).addEventListener('click', function(event){
       event.preventDefault()
+      document.querySelector('.browse-list').innerHTML = ""
       document.querySelector('.tag-line').classList.add('hidden')
       document.querySelector('.add-form').insertAdjacentHTML('beforeend',`
       <form class="container-center w-full mt-8">
@@ -57,6 +58,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       // Listen for the form submit and create/render the new post
       document.querySelector('.add-form').addEventListener('submit', async function (event) {
         event.preventDefault()
+        document.querySelector('.browse-list').innerHTML = ""
         let userId = user.uid
         let postCategory = document.querySelector('#category').value
         let postImageUrl = document.querySelector('#image-url').value
@@ -99,6 +101,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
     // Actions for clicking on the View My Bar button
     document.querySelector('#my-bar').addEventListener('click', async function(event) {
       event.preventDefault()
+      document.querySelector('.browse-list').innerHTML = ""
+      document.querySelector('.add-form').innerHTML = ""
       let currentUser = firebase.auth().currentUser
       let barResponse = await fetch(`/.netlify/functions/browse`)
       let posts = await barResponse.json()
