@@ -59,6 +59,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
       document.querySelector('.add-form').addEventListener('submit', async function (event) {
         event.preventDefault()
         document.querySelector('.browse-list').innerHTML = ""
+        document.querySelector('.add-form').innerHTML = ""
         let userId = user.uid
         let postCategory = document.querySelector('#category').value
         let postImageUrl = document.querySelector('#image-url').value
@@ -89,6 +90,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
     // Actions for clicking on the Browse the Shelves button
     document.querySelector(`#browse`).addEventListener('click', async function (event) {
       event.preventDefault()
+      document.querySelector('.browse-list').innerHTML = ""
       document.querySelector('.add-form').innerHTML = ""
       let browseResponse = await fetch(`/.netlify/functions/browse`)
       let posts = await browseResponse.json()
