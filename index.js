@@ -84,7 +84,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
         document.querySelector('#price').value = ''
         renderPost(post)
       })
-    }, { once: true })
+    })
 
     // Actions for clicking on the Browse the Shelves button
     document.querySelector(`#browse`).addEventListener('click', async function (event) {
@@ -107,9 +107,9 @@ firebase.auth().onAuthStateChanged(async function (user) {
               </div>
             `)
           }
-        },)
+        })
       }  
-    }, { once: true })
+    })
     // Actions for clicking on the View My Bar button
     document.querySelector('#my-bar').addEventListener('click', async function (event) {
       event.preventDefault()
@@ -134,7 +134,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
           // document.querySelector('.interested-button').innerHTML = ""
         }
       }
-    }, { once: true })
+    })
 
 
   } else {
