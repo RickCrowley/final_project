@@ -30,6 +30,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
     document.querySelector(`#add`).addEventListener('click', function (event) {
       event.preventDefault()
       document.querySelector('.browse-list').innerHTML = ""
+      document.querySelector('.add-form').innerHTML = ""
       document.querySelector('.tag-line').classList.add('hidden')
       document.querySelector('.add-form').insertAdjacentHTML('beforeend', `
       <form class="object-center w-full mt-8">
