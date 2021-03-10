@@ -60,7 +60,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
       document.querySelector('.add-form').addEventListener('submit', async function (event) {
         event.preventDefault()
         document.querySelector('.browse-list').innerHTML = ""
-        document.querySelector('.add-form').innerHTML = ""
+  
         let userId = user.uid
         let postCategory = document.querySelector('#category').value
         let postImageUrl = document.querySelector('#image-url').value
@@ -191,7 +191,7 @@ async function renderPost(post) {
       </div>
 
       <div class="interested">
-        <button class="interested-button bg-gray-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
+        <button class="interested-button bg-blue-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
       </div>            
     </div>
   `)
