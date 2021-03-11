@@ -102,6 +102,12 @@ firebase.auth().onAuthStateChanged(async function (user) {
       // Add event listener for Interested Button
         document.querySelector('.interested-button').addEventListener('click', async function (event) {
           event.preventDefault()
+          let userId = user.uid
+        let postCategory = document.querySelector('#category').value
+        let postImageUrl = document.querySelector('#image-url').value
+        let postUsername = user.displayName
+        let postDescription = document.querySelector('#description').value
+        let postValue = document.querySelector('#price').value
           let currentUser = firebase.auth().currentUser
           if (currentUser.uid == post.userid) {
             document.querySelector('.interested').insertAdjacentHTML('beforeend', `
@@ -109,9 +115,28 @@ firebase.auth().onAuthStateChanged(async function (user) {
                 Already in your Bar!
               </div>
             `)
+          } else {
+            let interestedResponse = await fetch (`/.netlify/functions/interested`, {
+              method: 'POST',
+              body: json.stringify({
+                userId: userId,
+                username: postUsername,
+                imageUrl: postImageUrl,
+                category: postCategory,
+                value: postValue,
+                description: postDescription
+              })
+            })
+            let post = await interestedResponse.json()
+
+            document.querySelector('#image-url').value = ''
+            document.querySelector('#category').value = ''
+            document.querySelector('#description').value = ''
+            document.querySelector('#price').value = ''
+            renderPost(post)
           }
-        })
-      }  
+          })
+        }
     })
     // Actions for clicking on the View My Bar button
     document.querySelector('#my-bar').addEventListener('click', async function (event) {

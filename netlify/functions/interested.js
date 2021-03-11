@@ -6,6 +6,7 @@ exports.handler = async function (event) {
   let postsData = []
 
   let postQuery = await db.collection('posts').orderBy('created').get()
+  
   let posts = postQuery.docs
 
   for (let i = 0; i < posts.length; i++) {
