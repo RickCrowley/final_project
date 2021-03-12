@@ -60,7 +60,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
       document.querySelector('.add-form').addEventListener('submit', async function (event) {
         event.preventDefault()
         document.querySelector('.browse-list').innerHTML = ""
-  
+
         let userId = user.uid
         let postCategory = document.querySelector('#category').value
         let postImageUrl = document.querySelector('#image-url').value
@@ -100,44 +100,50 @@ firebase.auth().onAuthStateChanged(async function (user) {
         renderPost(post)
         
         // Add event listener for Interested Button
-        document.querySelector('.interested-button').addEventListener('click', async function (event) {
-          event.preventDefault()
+        let postId = post.id
+        document.querySelector(`.interested-button-${postId}`).addEventListener('click', async function(event){
+          document.querySelector(`.interested-button-${postId}`).innerHTML = ""
+          
           let userId = user.uid
-          let postCategory = post.category
-          let postImageUrl = post.imageUrl
-          let postUsername = user.displayName
-          let postDescription = post.description
-          let postValue = post.value
-          let currentUser = firebase.auth().currentUser
-          console.log(event)
+          let currentUser = firebase.auth().currentUser    
+          
+          //Need to stop the Interested Button from occuring multiple times
           if (currentUser.uid == post.userid) {
-            document.querySelector('.interested').insertAdjacentHTML('beforeend', `
+            // document.querySelector(`.interested-${postId}`).innerHTML = ""
+            document.querySelector(`.interested-${postId}`).insertAdjacentHTML('beforeend', `
               <div class="text-white">
                 Already in your Bar!
               </div>
             `)
-          // } else {
-          //   let interestedResponse = await fetch (`/.netlify/functions/interested`, {
-          //     method: 'POST',
-          //     body: JSON.stringify({
-          //       userId: userId,
-          //       username: postUsername,
-          //       imageUrl: postImageUrl,
-          //       category: postCategory,
-          //       value: postValue,
-          //       description: postDescription
-          //     })
-          //   })
-          //   let post = await interestedResponse.json()
+          } else {
+            document.querySelector(`.interested-${postId}`).insertAdjacentHTML('beforeend', `
+              <div class="text-white">
+                Added to your Bar!
+              </div>
+            `)  
 
-            // document.querySelector('#image-url').value = ''
-            // document.querySelector('#category').value = ''
-            // document.querySelector('#description').value = ''
-            // document.querySelector('#price').value = ''
-            // renderPost(post)
+
+
           }
-        })
+        })        
       }
+      
+      //   // } else {
+          // let interestedResponse = await fetch (`/.netlify/functions/interested`, {
+      //   //     method: 'POST',
+      //   //     body: JSON.stringify({
+      //   //       userId: userId,
+      //   //       username: postUsername,
+      //   //       imageUrl: postImageUrl,
+      //   //       category: postCategory,
+      //   //       value: postValue,
+      //   //       description: postDescription
+      //   //     })
+      //   //   })
+      //   //   let post = await interestedResponse.json()
+
+      //      })
+
     })
     // Actions for clicking on the View My Bar button
     document.querySelector('#my-bar').addEventListener('click', async function (event) {
@@ -149,18 +155,11 @@ firebase.auth().onAuthStateChanged(async function (user) {
       let posts = await barResponse.json()
       for (let i = 0; i < posts.length; i++) {
         let post = posts[i]
-        // let postUser = posts.
-        // let docRef = await db.collection('interested').doc(`${post.id}-${currentUser.uid}`).get()
-        // let interested = docRef.data()
-        // let opacityClass = ''
-        // if (interested) {
-        //   opacityClass = 'opacity-20'
-        // }
-        // console.log(currentUser.uid)
-        // console.log(post.userid)
+        let postId = post.id
+        
         if (currentUser.uid == post.userid) {
           renderPost(post)
-          // document.querySelector('.interested-button').innerHTML = ""
+          document.querySelector(`.interested-button-${postId}`).innerHTML = ""
         }
       }
     })
@@ -216,8 +215,8 @@ async function renderPost(post) {
         <span class="font-bold text-white text-lg">${post.value}</span>
       </div>
 
-      <div class="interested">
-        <button class="interested-button bg-blue-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
+      <div class="interested-${postId}">
+        <button class="interested-button-${postId} bg-blue-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
       </div>            
     </div>
   `)
