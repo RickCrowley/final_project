@@ -33,28 +33,28 @@ firebase.auth().onAuthStateChanged(async function (user) {
       document.querySelector('.add-form').innerHTML = ""
       document.querySelector('.tag-line').classList.add('hidden')
       document.querySelector('.add-form').insertAdjacentHTML('beforeend', `
-      <form class="object-center w-full mt-8">
-        <select id="category" name="category" placeholder="Category"
-          class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-          <option value="none">None</option>
-          <option value="american">American Whiskey</option>
-          <option value="blended">Blended</option>
-          <option value="bourbon">Bourbon</option>
-          <option value="canadian">Canadian</option>
-          <option value="independent">Independent</option>
-          <option value="irish">Irish</option>
-          <option value="japanese">Japanese</option>
-          <option value="rye">Rye</option>
-          <option value="scotch">Scotch</option>
-          </select>
-        <input type="text" id="image-url" name="image-url" placeholder="Image URL"
-          class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-        <input type="text" id="price" name="price" placeholder="Suggested Value"
-          class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-        <input type="text" style="width:780px; height:100px;" id="description" name="description" placeholder="Brief Description"
-          class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-        <button class="bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded-xl">Add</button>
-      </form>
+        <form class="w-full mt-8">
+          <select id="category" name="category" placeholder="Category"
+            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <option value="none">None</option>
+            <option value="american">American Whiskey</option>
+            <option value="blended">Blended</option>
+            <option value="bourbon">Bourbon</option>
+            <option value="canadian">Canadian</option>
+            <option value="independent">Independent</option>
+            <option value="irish">Irish</option>
+            <option value="japanese">Japanese</option>
+            <option value="rye">Rye</option>
+            <option value="scotch">Scotch</option>
+            </select>
+          <input type="text" id="image-url" name="image-url" placeholder="Image URL"
+            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          <input type="text" id="price" name="price" placeholder="Suggested Value"
+            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          <input type="text" id="description" name="description" placeholder="Brief Description"
+            class="block w-1/2 h-16 flex-shrink my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          <button class="block bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded-xl">Add</button>
+        </form>
       `)
       // Listen for the form submit and create/render the new post
       document.querySelector('.add-form').addEventListener('submit', async function (event) {
@@ -99,44 +99,45 @@ firebase.auth().onAuthStateChanged(async function (user) {
         let post = posts[i]
         renderPost(post)
         
-      // Add event listener for Interested Button
+        // Add event listener for Interested Button
         document.querySelector('.interested-button').addEventListener('click', async function (event) {
           event.preventDefault()
           let userId = user.uid
-        let postCategory = document.querySelector('#category').value
-        let postImageUrl = document.querySelector('#image-url').value
-        let postUsername = user.displayName
-        let postDescription = document.querySelector('#description').value
-        let postValue = document.querySelector('#price').value
+          let postCategory = post.category
+          let postImageUrl = post.imageUrl
+          let postUsername = user.displayName
+          let postDescription = post.description
+          let postValue = post.value
           let currentUser = firebase.auth().currentUser
+          console.log(event)
           if (currentUser.uid == post.userid) {
             document.querySelector('.interested').insertAdjacentHTML('beforeend', `
-              <div>
+              <div class="text-white">
                 Already in your Bar!
               </div>
             `)
-          } else {
-            let interestedResponse = await fetch (`/.netlify/functions/interested`, {
-              method: 'POST',
-              body: json.stringify({
-                userId: userId,
-                username: postUsername,
-                imageUrl: postImageUrl,
-                category: postCategory,
-                value: postValue,
-                description: postDescription
-              })
-            })
-            let post = await interestedResponse.json()
+          // } else {
+          //   let interestedResponse = await fetch (`/.netlify/functions/interested`, {
+          //     method: 'POST',
+          //     body: JSON.stringify({
+          //       userId: userId,
+          //       username: postUsername,
+          //       imageUrl: postImageUrl,
+          //       category: postCategory,
+          //       value: postValue,
+          //       description: postDescription
+          //     })
+          //   })
+          //   let post = await interestedResponse.json()
 
-            document.querySelector('#image-url').value = ''
-            document.querySelector('#category').value = ''
-            document.querySelector('#description').value = ''
-            document.querySelector('#price').value = ''
-            renderPost(post)
+            // document.querySelector('#image-url').value = ''
+            // document.querySelector('#category').value = ''
+            // document.querySelector('#description').value = ''
+            // document.querySelector('#price').value = ''
+            // renderPost(post)
           }
-          })
-        }
+        })
+      }
     })
     // Actions for clicking on the View My Bar button
     document.querySelector('#my-bar').addEventListener('click', async function (event) {
@@ -167,7 +168,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
 
   } else {
     // Signed out
-    console.log('signed out')
+    // console.log('signed out')
 
     document.querySelector(`#browse`).classList.add('hidden')
     document.querySelector(`#add`).classList.add('hidden')
@@ -193,7 +194,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
 async function renderPost(post) {
   let postId = post.id
   document.querySelector('.browse-list').insertAdjacentHTML('beforeend', `
-    <div class=" object-scale-down post-${postId} p-4 w-full md:w-1/2 lg:w-1/3">
+    <div class="post-${postId} space-x-4 border border-white md:w-1/2 lg:w-1/3">
 
       <div class="md:mx-0 mx-4">
         <span class="font-bold capitalize text-white text-xl">${post.category}</span>
