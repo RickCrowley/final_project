@@ -120,30 +120,23 @@ firebase.auth().onAuthStateChanged(async function (user) {
               <div class="text-white">
                 Added to your Bar!
               </div>
-            `)  
-
-
-
+            `)
+            
+            // let interestedResponse = await fetch (`/.netlify/functions/interested`, {
+            //   method: 'POST',
+            //   body: JSON.stringify({
+            //     userId: userId,
+            //     username: postUsername,
+            //     imageUrl: postImageUrl,
+            //     category: postCategory,
+            //     value: postValue,
+            //     description: postDescription
+            //   })
+            // })
+            // let post = await interestedResponse.json()
           }
         })        
       }
-      
-      //   // } else {
-          // let interestedResponse = await fetch (`/.netlify/functions/interested`, {
-      //   //     method: 'POST',
-      //   //     body: JSON.stringify({
-      //   //       userId: userId,
-      //   //       username: postUsername,
-      //   //       imageUrl: postImageUrl,
-      //   //       category: postCategory,
-      //   //       value: postValue,
-      //   //       description: postDescription
-      //   //     })
-      //   //   })
-      //   //   let post = await interestedResponse.json()
-
-      //      })
-
     })
     // Actions for clicking on the View My Bar button
     document.querySelector('#my-bar').addEventListener('click', async function (event) {
@@ -163,7 +156,6 @@ firebase.auth().onAuthStateChanged(async function (user) {
         }
       }
     })
-
 
   } else {
     // Signed out
