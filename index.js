@@ -162,24 +162,27 @@ firebase.auth().onAuthStateChanged(async function (user) {
         if (currentUser.uid == post.userid) {
           renderPost(post)
           document.querySelector(`.interested-button-${postId}`).innerHTML = ""
-        }        
+        }
       }
+    })
+    document.querySelector('#my-bar').addEventListener('click', async function (event) {
+      event.preventDefault()
+      document.querySelector('.browse-list').innerHTML = ""
+      document.querySelector('.add-form').innerHTML = ""
+      let currentUser = firebase.auth().currentUser
       let interestedResponse = await fetch(`/.netlify/functions/find_interested`)
       let interested = await interestedResponse.json()
       for (let i = 0; i < interested.length; i++) {
-        let interetedPost = interested[i]
-        let postId = interested.id
-        console.log(currentUser.uid)
-        console.log(interested.userid)
-
-        if (currentUser.uid == interested.userid) {
+        let interestedPost = interested[i]
+        let postId = interestedPost.id
+        
+        if (currentUser.uid == interestedPost.userid) {
           renderPost(interestedPost)
-          // document.querySelector(`.interested-button-${postId}`).innerHTML = ""
-        }  
-      }       
-
-
-    })
+          document.querySelector(`.interested-button-${postId}`).innerHTML = ""
+        }
+      }
+    })  
+    
 
   } else {
     // Signed out
