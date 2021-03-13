@@ -121,19 +121,30 @@ firebase.auth().onAuthStateChanged(async function (user) {
                 Added to your Bar!
               </div>
             `)
-            
-             let interestedResponse = await fetch (`/.netlify/functions/interested`, {
-               method: 'POST',
-               body: JSON.stringify({
-                 userId: userId,
-                 username: postUsername,
-               imageUrl: postImageUrl,
-                category: postCategory,
-                value: postValue,
-               description: postDescription
-               })
-             })
-             let post = await interestedResponse.json()
+            let browseResponse = await fetch(`/.netlify/functions/browse`)
+            let posts = await browseResponse.json()
+            for (let i = 0; i < posts.length; i++) {
+              let post = posts[i]
+              let userId = user.uid
+              let postCategory = post.category
+              let postImageUrl = post.imageUrl
+              let postUsername = post.username
+              let postDescription = post.description
+              let postValue = post.value
+              let ineterestedResponse = await fetch (`/.netlify/functions/interested`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userId: userId,
+                  username: postUsername,
+                  imageUrl: postImageUrl,
+                  category: postCategory,
+                  value: postValue,
+                  description: postDescription
+                })
+
+              })
+              let post = await interestedResponse.json()
+            }
           }
         })        
       }
