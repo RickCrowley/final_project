@@ -1,6 +1,9 @@
 # Final Project Template
 
 KIEI-451 Winter 2021
+Group:
+    Rick Crowley, Stephen Vogl, Ryan Webb
+
 Project overview:
 
     For our project, we have decided to take on project ID#10 the whiskey exchange (name TBD). Our site will create a marketplace for users to trade various whiskies (or other spirits). The MVP functionality will include:
@@ -20,5 +23,3 @@ Project overview:
     2. Clicking "Interested" provides the email address of the poster and/or notifies the poster
     3. Users can filter by type of spirit
 
-Group:
-    Rick Crowley, Stephen Vogl, Ryan Webb
