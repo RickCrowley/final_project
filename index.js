@@ -98,15 +98,15 @@ firebase.auth().onAuthStateChanged(async function (user) {
       for (let i = 0; i < posts.length; i++) {
         let post = posts[i]
         renderPost(post)
-        
+
         // Add event listener for Interested Button
         let postId = post.id
-        document.querySelector(`.interested-button-${postId}`).addEventListener('click', async function(event){
+        document.querySelector(`.interested-button-${postId}`).addEventListener('click', async function (event) {
           document.querySelector(`.interested-button-${postId}`).innerHTML = ""
-          
+
           let userId = user.uid
-          let currentUser = firebase.auth().currentUser    
-          
+          let currentUser = firebase.auth().currentUser
+
           //Need to stop the Interested Button from occuring multiple times
           if (currentUser.uid == post.userid) {
             // document.querySelector(`.interested-${postId}`).innerHTML = ""
@@ -123,41 +123,28 @@ firebase.auth().onAuthStateChanged(async function (user) {
             `)
             let browseResponse = await fetch(`/.netlify/functions/browse`)
             let posts = await browseResponse.json()
-            for (let i = 0; i < posts.length; i++) {
-              let post = posts[i]
-              let userId = user.uid
-              let postCategory = post.category
-              let postImageUrl = post.imageUrl
-              let postUsername = post.username
-              let postDescription = post.description
-              let postValue = post.value
-              let ineterestedResponse = await fetch (`/.netlify/functions/interested`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userId: userId,
-                  username: postUsername,
-                  imageUrl: postImageUrl,
-                  category: postCategory,
-                  value: postValue,
-                  description: postDescription
-                })
-              })
-            }
-            
-             let interestedResponse = await fetch (`/.netlify/functions/interested`, {
-               method: 'POST',
-               body: JSON.stringify({
-                 userId: userId,
-                 username: postUsername,
-               imageUrl: postImageUrl,
+            let post = posts[i]
+            let userId = user.uid
+            let postCategory = post.category
+            let postImageUrl = post.imageUrl
+            let postUsername = post.username
+            let postDescription = post.description
+            let postValue = post.value
+            let ineterestedResponse = await fetch(`/.netlify/functions/interested`, {
+              method: 'POST',
+              body: JSON.stringify({
+                userId: userId,
+                username: postUsername,
+                imageUrl: postImageUrl,
                 category: postCategory,
                 value: postValue,
-               description: postDescription
-               })
-             })
-             let post = await interestedResponse.json()
+                description: postDescription
+              })
+            })
+
+
           }
-        })        
+        })
       }
     })
     // Actions for clicking on the View My Bar button
@@ -171,12 +158,27 @@ firebase.auth().onAuthStateChanged(async function (user) {
       for (let i = 0; i < posts.length; i++) {
         let post = posts[i]
         let postId = post.id
-        
+
         if (currentUser.uid == post.userid) {
           renderPost(post)
           document.querySelector(`.interested-button-${postId}`).innerHTML = ""
-        }
+        }        
       }
+      let interestedResponse = await fetch(`/.netlify/functions/find_interested`)
+      let interested = await interestedResponse.json()
+      for (let i = 0; i < interested.length; i++) {
+        let interetedPost = interested[i]
+        let postId = interested.id
+        console.log(currentUser.uid)
+        console.log(interested.userid)
+
+        if (currentUser.uid == interested.userid) {
+          renderPost(interestedPost)
+          // document.querySelector(`.interested-button-${postId}`).innerHTML = ""
+        }  
+      }       
+
+
     })
 
   } else {
