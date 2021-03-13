@@ -141,10 +141,21 @@ firebase.auth().onAuthStateChanged(async function (user) {
                   value: postValue,
                   description: postDescription
                 })
-
               })
-              let post = await interestedResponse.json()
             }
+            
+             let interestedResponse = await fetch (`/.netlify/functions/interested`, {
+               method: 'POST',
+               body: JSON.stringify({
+                 userId: userId,
+                 username: postUsername,
+               imageUrl: postImageUrl,
+                category: postCategory,
+                value: postValue,
+               description: postDescription
+               })
+             })
+             let post = await interestedResponse.json()
           }
         })        
       }
