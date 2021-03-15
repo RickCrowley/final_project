@@ -9,29 +9,29 @@ firebase.auth().onAuthStateChanged(async function (user) {
     //   email: user.email
     // })
 
-    //Need to figure out how to make the Sign Out button align to the right
-    document.querySelector('.sign-out').insertAdjacentHTML('beforeend',
-      `<a href="#" class="text-lg sign-out button bg-gray-500 hover:bg-black border-black text-white rounded px-2">Sign Out</a>`)
+  
 
     // Display upon Sign-in
     document.querySelector('.sign-in-or-sign-out').innerHTML = `
-      <div class="container-center text-xl">
-        <p class="m-12">Welcome ${user.displayName}</p>
-        <p class="m-12">What would you like to do today?</p>
+      <div style="padding: 8px; border: 2px; margin: 50px; background-color:rgba(255, 255, 255, 0.753);">
+        <p class="text-2xl text-black font-bold">Welcome ${user.displayName}!</p>
+        <p class="text-2xl text-black font-bold">What would you like to do today:</p>
       </div>
     `
-    document.querySelector('.sign-out').addEventListener('click', function (event) {
+    
+
+    // Actions for clicking the Sign Out button 
+    document.querySelector(`#sign-out`).addEventListener('click', function (event) {
       event.preventDefault()
+      document.querySelector('.sign-out').innerHTML = ""
       firebase.auth().signOut()
       document.location.href = 'index.html'
     })
-
     // Actions for clicking on the Add to do the Shelves button
     document.querySelector(`#add`).addEventListener('click', function (event) {
       event.preventDefault()
       document.querySelector('.browse-list').innerHTML = ""
       document.querySelector('.add-form').innerHTML = ""
-      document.querySelector('.tag-line').classList.add('hidden')
       document.querySelector('.add-form').insertAdjacentHTML('beforeend', `
         <form class="w-full mt-8">
           <select id="category" name="category" placeholder="Category"
@@ -191,6 +191,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
     document.querySelector(`#browse`).classList.add('hidden')
     document.querySelector(`#add`).classList.add('hidden')
     document.querySelector(`#my-bar`).classList.add('hidden')
+    document.querySelector(`#sign-out`).classList.add('hidden')
 
     // Initializes FirebaseUI Auth
     let ui = new firebaseui.auth.AuthUI(firebase.auth())
@@ -214,28 +215,28 @@ async function renderPost(post) {
   document.querySelector('.browse-list').insertAdjacentHTML('beforeend', `
     <div class="post-${postId} space-x-4 border border-white md:w-1/2 lg:w-1/3">
 
-      <div class="md:mx-0 mx-4">
-        <span class="font-bold capitalize text-white text-xl">${post.category}</span>
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
+        <span>${post.category}</span>
       </div>
 
-      <div>
-        <img src="${post.imageUrl}" class="bg-white h-1/3; w-1/3">
-      </div>
+      <center>
+        <img src="${post.imageUrl}" class="bg-rgba(255, 255, 255, 0.753)" style="width:250px; height: 300px; object-fit:cover;">
+      </center>
       
-      <div class="md:mx-0 mx-4">
-        <span class="font-bold text-white text-xl">${post.username}</span>
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
+        <span>${post.username}</span>
       </div>
 
-      <div class="md:mx-0 mx-4 w-1/3">
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
         <span class="font-bold text-white text-lg">${post.description}</span>
       </div>
 
-      <div class="md:mx-0 mx-4">
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
         <span class="font-bold text-white text-lg">${post.value}</span>
       </div>
 
-      <div class="interested-${postId}">
-        <button class="interested-button-${postId} bg-blue-500 hover:bg-black text-white px-2 rounded-xl">Interested!</button>
+      <div class="text-center interested-${postId}">
+        <button class="interested-button-${postId} bg-blue-500 hover:bg-blue-800 text-white px-2 rounded-xl">Interested!</button>
       </div>            
     </div>
   `)
