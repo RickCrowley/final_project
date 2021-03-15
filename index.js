@@ -1,13 +1,13 @@
 firebase.auth().onAuthStateChanged(async function (user) {
   if (user) {
     // Signed in
-    let db = firebase.firestore()
+    // let db = firebase.firestore()
     console.log('signed in')
 
-    db.collection('users').doc(user.uid).set({
-      name: user.displayName,
-      email: user.email
-    })
+    // db.collection('users').doc(user.uid).set({
+    //   name: user.displayName,
+    //   email: user.email
+    // })
 
     //Need to figure out how to make the Sign Out button align to the right
     document.querySelector('.sign-out').insertAdjacentHTML('beforeend',
