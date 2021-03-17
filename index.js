@@ -130,11 +130,11 @@ firebase.auth().onAuthStateChanged(async function (user) {
             let postUsername = post.username
             let postDescription = post.description
             let postValue = post.value
-            let origPostId = post.id
+            // let origPostId = post.id
             let ineterestedResponse = await fetch(`/.netlify/functions/interested`, {
               method: 'POST',
               body: JSON.stringify({
-                origPostId: origPostId,
+                origPostId: postId,
                 userId: userId,
                 username: postUsername,
                 imageUrl: postImageUrl,

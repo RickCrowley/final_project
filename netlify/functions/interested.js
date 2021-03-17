@@ -1,5 +1,5 @@
 let firebase = require('./firebase')
-//everything below should be modeled off of add to create a firebase collection for interested
+
 exports.handler = async function (event) {
   let db = firebase.firestore()
   // console.log(event)
@@ -10,7 +10,8 @@ exports.handler = async function (event) {
   let postUsername = body.username
   let postDescription = body.description
   let postValue = body.value
-  let browsePostId = body.postId 
+  let browsePostId = body.origPostId 
+  console.log(browsePostId)
 
   let newPost = {
     origPostId: browsePostId,
