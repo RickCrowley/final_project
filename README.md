@@ -4,6 +4,10 @@ KIEI-451 Winter 2021
 Group:
     Rick Crowley, Stephen Vogl, Ryan Webb
 
+Deployed URL: https://whiskey-exchange.netlify.app/index.html
+
+Web App Repository: https://play.nativescript.org/?template=play-js&id=f1bzY6&v=21
+
 Project overview:
 
     For our project, we have decided to take on project ID#10 the whiskey exchange (name TBD). Our site will create a marketplace for users to trade various whiskies (or other spirits). The MVP functionality will include:
