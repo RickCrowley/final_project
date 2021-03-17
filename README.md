@@ -7,6 +7,7 @@ Group:
 Deployed URL: https://whiskey-exchange.netlify.app/index.html
 
 Web App Repository: https://play.nativescript.org/?template=play-js&id=f1bzY6&v=21
+Allows you to view everything posted under the browse.js function and refresh if new things are added to the site.
 
 Project overview:
 
