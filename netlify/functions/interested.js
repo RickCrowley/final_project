@@ -11,7 +11,7 @@ exports.handler = async function (event) {
   let postDescription = body.description
   let postValue = body.value
   let browsePostId = body.origPostId 
-  console.log(browsePostId)
+  // console.log(browsePostId)
 
   let newPost = {
     origPostId: browsePostId,
@@ -25,7 +25,7 @@ exports.handler = async function (event) {
   }
 
   let querySnapshot = await db.collection('interested').where('userId', '==', userId).where('origPostId', '==', browsePostId).get()
-  console.log(querySnapshot.size)
+  // console.log(querySnapshot.size)
 
   if(querySnapshot.size < 1) {
 

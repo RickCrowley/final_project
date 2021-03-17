@@ -2,7 +2,7 @@ let firebase = require('./firebase')
 
 exports.handler = async function (event) {
   let db = firebase.firestore()
-  console.log(event)
+  // console.log(event)
   let postsData = []
 
   let postQuery = await db.collection('interested').orderBy('created').get()
