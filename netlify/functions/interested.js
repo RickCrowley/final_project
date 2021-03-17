@@ -39,7 +39,9 @@ exports.handler = async function (event) {
 
   } else {
 
-    return { statusCode: 403 }    
+    return { statusCode: 200,
+     
+    }    
 
   }
 
