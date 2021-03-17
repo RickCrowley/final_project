@@ -23,10 +23,6 @@ exports.handler = async function (event) {
     created: firebase.firestore.FieldValue.serverTimestamp()
   }
 
-  // console.log(`${userId}-${browsePostId}`)
-  // let currentUser = firebase.auth().currentUser
-  // console.log(currentUser.uid)
-
   let querySnapshot = await db.collection('interested').where('userId', '==', userId).where('origPostId', '==', browsePostId).get()
   console.log(querySnapshot.size)
 
@@ -42,9 +38,7 @@ exports.handler = async function (event) {
 
   } else {
 
-    return { statusCode: 403 }
-
-    
+    return { statusCode: 403 }    
 
   }
 
