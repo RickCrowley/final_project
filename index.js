@@ -35,7 +35,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
       document.querySelector('.add-form').insertAdjacentHTML('beforeend', `
         <form class="w-full mt-8">
           <select id="category" name="category" placeholder="Category"
-            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-gray-500 focus:border-gray-500">
             <option value="none">None</option>
             <option value="american">American Whiskey</option>
             <option value="blended">Blended</option>
@@ -48,12 +48,12 @@ firebase.auth().onAuthStateChanged(async function (user) {
             <option value="scotch">Scotch</option>
             </select>
           <input type="text" id="image-url" name="image-url" placeholder="Image URL"
-            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-gray-500 focus:border-gray-500">
           <input type="text" id="price" name="price" placeholder="Suggested Value"
-            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-gray-500 focus:border-gray-500">
           <input type="text" id="description" name="description" placeholder="Brief Description"
-            class="block w-1/2 h-16 flex-shrink my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-          <button class="block bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded-xl">Add</button>
+            class="block w-1/2 h-16 flex-shrink my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-gray-500 focus:border-gray-500">
+          <button class="block bg-gray-800 hover:bg-gray-500 border border-gray-500 text-white px-4 py-2 rounded-xl">Add</button>
         </form>
       `)
       // Listen for the form submit and create/render the new post
@@ -111,13 +111,13 @@ firebase.auth().onAuthStateChanged(async function (user) {
           if (currentUser.uid == post.userid) {
             // document.querySelector(`.interested-${postId}`).innerHTML = ""
             document.querySelector(`.interested-${postId}`).insertAdjacentHTML('beforeend', `
-              <div class="text-white">
+              <div class="text-black">
                 Already in your Bar!
               </div>
             `)
           } else {
             document.querySelector(`.interested-${postId}`).insertAdjacentHTML('beforeend', `
-              <div class="text-white">
+              <div class="text-black">
                 Added to your Bar!
               </div>
             `)
@@ -215,9 +215,9 @@ firebase.auth().onAuthStateChanged(async function (user) {
 async function renderPost(post) {
   let postId = post.id
   document.querySelector('.browse-list').insertAdjacentHTML('beforeend', `
-    <div class="post-${postId} space-x-4 border border-white md:w-1/2 lg:w-1/3">
+    <div class="post-${postId} space-x-4 p-4 bg-gray-200 border border-white md:w-1/2 lg:w-1/3">
 
-      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-black text-xl">
         <span>${post.category}</span>
       </div>
 
@@ -225,20 +225,20 @@ async function renderPost(post) {
         <img src="${post.imageUrl}" class="bg-rgba(255, 255, 255, 0.753)" style="width:250px; height: 300px; object-fit:cover;">
       </center>
       
-      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-black text-xl">
         <span>${post.username}</span>
       </div>
 
-      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
-        <span class="font-bold text-white text-lg">${post.description}</span>
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-black text-xl">
+        <span class="font-bold text-black text-lg">${post.description}</span>
       </div>
 
-      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-white text-xl">
-        <span class="font-bold text-white text-lg">${post.value}</span>
+      <div class="md:mx-0 mx-4 text-center font-bold capitalize text-black text-xl">
+        <span class="font-bold text-black text-lg">${post.value}</span>
       </div>
 
       <div class="text-center interested-${postId}">
-        <button class="interested-button-${postId} bg-blue-500 hover:bg-blue-800 text-white px-2 rounded-xl">Interested!</button>
+        <button class="interested-button-${postId} bg-gray-800 hover:bg-gray-500 border-gray-500 text-white px-2 rounded-xl">Interested!</button>
       </div>            
     </div>
   `)
